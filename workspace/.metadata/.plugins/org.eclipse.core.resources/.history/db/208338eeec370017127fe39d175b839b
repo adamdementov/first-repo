@@ -1,0 +1,60 @@
+package anna_section;
+
+import java.util.Properties;
+import javax.mail.*;
+//import javax.mail.Message.RecipientType;
+//import javax.mail.Message.*;
+import com.sun.mail.*;
+import com.sun.mail.gimap.*;
+//import java.util.*;
+//import javax.mail.internet.*;
+//import javax.mail.search.*;
+
+public class GetData {
+
+	public static void main(String[] args){
+		Properties props = System.getProperties();
+        props.setProperty("mail.store.protocol", "gimap");
+		try{
+		String personChecked = "elenadem88@gmail.com";
+		Session session = Session.getDefaultInstance(props);
+        GmailStore store = (GmailStore) session.getStore("gimap");
+        store.connect("imap.gmail.com", "adamdemen@gmail.com", "aA19959092!");
+        GmailFolder inbox = (GmailFolder) store.getFolder("[Gmail]/All Mail");
+        inbox.open(Folder.READ_ONLY);
+        Message[] foundMessages = inbox.search(new GmailRawSearchTerm("to:"+personChecked));
+        System.out.println("Found messages: " + foundMessages.length);
+        inbox.close(false);
+        store.close();
+		
+		}catch (NoSuchProviderException e) {
+            e.printStackTrace();
+            System.exit(1);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            System.exit(2);
+        }
+	}
+//	public static boolean addressesInclude(Address[] toSearch, String recipient){
+//		for(int i = 0; i < toSearch.length; i++){
+//			if(toSearch[i].toString().equals(recipient)){
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+//
+//	public static int getNumSentTo(Message[] toSearch, String recipient){
+//		int caught = 0;
+//		for(int i = 0; i < toSearch.length; i++){
+//			try {
+//				if(addressesInclude(toSearch[i].getRecipients(RecipientType.TO), recipient)){
+//					caught++;
+//				}
+//			} catch (MessagingException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return caught;
+//	}
+}

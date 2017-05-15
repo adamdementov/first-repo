@@ -1,0 +1,24 @@
+package db_hopeful;
+import java.sql.*;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		try(
+				Connection conn = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/new_schema?useSSL=false","adam","adam");
+				
+			){
+			String fruit;
+			int amt;
+			PreparedStatement stmt = conn.prepareStatement("insert into `new_schema`.`fruits` (name,amt) values ("+fruit+","+amt+")")
+			stmt.execute();
+		}catch(SQLException exc){
+			exc.printStackTrace();
+		}
+		
+
+	}
+
+}

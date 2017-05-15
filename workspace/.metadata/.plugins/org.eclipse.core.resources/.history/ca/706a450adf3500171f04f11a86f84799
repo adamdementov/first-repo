@@ -1,0 +1,21 @@
+package db_hopeful;
+import java.sql.*;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		try{
+//				Class.forName("com.mysql.jdbc.Driver");
+				Connection conn = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/new_schema?useSSL=false","adam","adam");
+				
+			
+		}catch(SQLException exc){
+			exc.printStackTrace();
+		}
+		
+
+	}
+
+}

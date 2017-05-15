@@ -1,0 +1,19 @@
+package db_hopeful;
+import java.sql.*;
+public class Main {
+
+	public static void main(String[] args) {
+		
+		try(
+				Connection conn = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/fruits","adam","adam");
+				){
+			
+		}catch(SQLException exc){
+			exc.printStackTrace();
+		}
+		
+
+	}
+
+}

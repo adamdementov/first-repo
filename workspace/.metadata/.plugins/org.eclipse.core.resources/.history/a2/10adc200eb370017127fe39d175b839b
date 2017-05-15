@@ -1,0 +1,65 @@
+package anna_section;
+
+//import java.util.Properties;
+import javax.mail.*;
+//import javax.mail.Message.RecipientType;
+import javax.mail.Message.*;
+import com.sun.mail.imap.*;
+import java.util.*;
+import javax.mail.internet.*;
+import javax.mail.search.*;
+
+public class GetData {
+
+	public static void main(String[] args){
+		
+		try{
+		String personChecked = "elenadem88@gmail.com";
+		Properties properties = new Properties();
+		properties.setProperty("mail.store.protocol", "imaps");
+		properties.setProperty("mail.imaps.port", "993");
+		properties.put("mail.imaps.starttls.enable", "true");
+		Session emailSession = Session.getDefaultInstance(properties);
+		
+		Store store = emailSession.getStore("imaps");
+		
+		store.connect("imap.gmail.com", "adamdemen@gmail.com", "aA19959092!");
+		
+		IMAPStore imapStore = (IMAPStore) store;
+		
+		Folder inbox = imapStore.getFolder("Inbox");
+		Folder sentBox = imapStore.getFolder("[Gmail]/Sent Mail");
+//		SearchTerm sender;
+		
+//		sender = new RecipientTerm(javax.mail.Message.RecipientType.TO, new InternetAddress(personChecked));
+        sentBox.open(Folder.READ_ONLY);
+		System.out.println(getNumSentTo(sentBox.getMessages(), personChecked));
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public static boolean addressesInclude(Address[] toSearch, String recipient){
+		for(int i = 0; i < toSearch.length; i++){
+			if(toSearch[i].toString().equals(recipient)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	public static int getNumSentTo(Message[] toSearch, String recipient){
+		int caught = 0;
+		for(int i = 0; i < toSearch.length; i++){
+			try {
+				if(addressesInclude(toSearch[i].getRecipients(RecipientType.TO), recipient)){
+					caught++;
+				}
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+		}
+		return caught;
+	}
+}

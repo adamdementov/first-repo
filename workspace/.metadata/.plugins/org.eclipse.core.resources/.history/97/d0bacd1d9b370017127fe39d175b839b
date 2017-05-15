@@ -1,0 +1,35 @@
+package anna_section;
+
+import java.util.Properties;
+import javax.mail.*;
+
+import com.sun.mail.imap.*;
+import java.util.*;
+
+public class GetData {
+
+	public static void main(String[] args){
+		
+		try{
+		
+		Properties properties = new Properties();
+		properties.setProperty("mail.store.protocol", "imaps");
+		properties.setProperty("mail.imaps.port", "993");
+		properties.put("mail.imaps.starttls.enable", "true");
+		Session emailSession = Session.getDefaultInstance(properties);
+		
+		Store store = emailSession.getStore("imaps");
+		
+		store.connect("imap.gmail.com", "adamdemen@gmail.com", "aA19959092!");
+		
+		IMAPStore imapStore = (IMAPStore) store;
+		
+		Folder fold = imapStore.getFolder("All Mail");
+		
+		System.out.println(fold.getMessageCount());
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+}

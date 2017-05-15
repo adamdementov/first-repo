@@ -1,0 +1,50 @@
+package anna_section;
+
+//import java.util.Properties;
+import javax.mail.*;
+
+import com.sun.mail.imap.*;
+import java.util.*;
+import javax.mail.search.SearchTerm;
+
+public class GetData {
+
+	public static void main(String[] args){
+		
+		try{
+		String personChecked = "anna";
+		Properties properties = new Properties();
+		properties.setProperty("mail.store.protocol", "imaps");
+		properties.setProperty("mail.imaps.port", "993");
+		properties.put("mail.imaps.starttls.enable", "true");
+		Session emailSession = Session.getDefaultInstance(properties);
+		
+		Store store = emailSession.getStore("imaps");
+		
+		store.connect("imap.gmail.com", "adamdemen@gmail.com", "aA19959092!");
+		
+		IMAPStore imapStore = (IMAPStore) store;
+		
+		Folder inbox = imapStore.getFolder("Inbox");
+		Folder sentBox = imapStore.getFolder("[Gmail]/Sent Mail");
+		SearchTerm searchCondition = new SearchTerm() {
+            @Override
+            public boolean match(Message message) {
+                try {
+                    if (message.getAllRecipients().toString().contains(personChecked)) {
+                        return true;
+                    }
+                } catch (MessagingException ex) {
+                    ex.printStackTrace();
+                }
+                return false;
+            }
+        };
+        sentBox.open(Folder.READ_ONLY);
+		System.out.println(sentBox.search(searchCondition).length);
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+}

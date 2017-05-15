@@ -1,0 +1,37 @@
+package db_hopeful;
+import java.sql.*;
+import java.util.Scanner;
+
+public class Main {
+	public static Connection conn = null;
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		try(
+				conn = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/new_schema?useSSL=false","adam","adam");
+				
+			){
+			
+			
+		}catch(SQLException exc){
+			exc.printStackTrace();
+		}
+		
+
+	}
+	
+	public static boolean insertFruit(){
+		String fruit = "";
+		do{
+		System.out.println("fruit = ");
+		fruit = scan.next();
+		if(fruit.equals("quit"))
+			break;
+		System.out.println("amount = ");
+		int amt = scan.nextInt();
+		PreparedStatement stmt = conn.prepareStatement("insert into `new_schema`.`fruits` (name,amt) values (\""+fruit+"\","+amt+")");
+		stmt.execute();
+		}while(true);
+	}
+
+}

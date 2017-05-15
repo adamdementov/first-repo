@@ -1,0 +1,10 @@
+package mail_system;
+
+import java.util.*;
+
+public class GetData {
+
+	public static void main(String[] args){
+		System.out.println("Hi");
+	}
+}
